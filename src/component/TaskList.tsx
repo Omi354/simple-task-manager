@@ -1,19 +1,13 @@
-// type TodoList = {
-//   checkBox: boolean
-//   task: string
-//   deadline: string
-// }
-
 import { Box, Stack, Typography } from "@mui/material";
-import TaskItem from "./TaskItem";
+import TaskItem, { todo } from "./TaskItem";
 
-const TaskList: React.FC = () => {
-  const List = [
-    { checkBox: false, task: "掃除", deadline: "2022/10/10" },
-    { checkBox: false, task: "洗濯", deadline: "2022/10/11" },
-    { checkBox: false, task: "買い物", deadline: "2022/10/12" },
-  ];
+type Props = {
+  List: todo[];
+  toggleCheckBox: (id: number) => void;
+  deleteTodo: (id: number) => void;
+};
 
+const TaskList: React.FC<Props> = ({ List, toggleCheckBox, deleteTodo }) => {
   return (
     <>
       <Typography variant="h4" align="center">
@@ -30,9 +24,12 @@ const TaskList: React.FC = () => {
         {List.map((todo, index) => (
           <Stack key={index}>
             <TaskItem
+              id={todo.id}
               checkBox={todo.checkBox}
               task={todo.task}
               deadline={todo.deadline}
+              toggleCheckBox={() => toggleCheckBox(todo.id)}
+              deleteTodo={() => deleteTodo(todo.id)}
             />
           </Stack>
         ))}
